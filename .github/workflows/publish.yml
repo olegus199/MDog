@@ -80,7 +80,7 @@ jobs:
         run: brew install tree
 
       - name: Build application
-        run: pnpm tauri build -- --target ${{ matrix.target }}
+        run: pnpm tauri build -- --target ${{ matrix.target }} -v
 
       - name: debug run tree
         if: ${{ always() }}
