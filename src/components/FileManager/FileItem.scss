@@ -1,0 +1,75 @@
+@import "../../colors.scss";
+
+.item {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  margin-bottom: 0.2rem;
+  padding: 0.5rem 1rem;
+
+  cursor: pointer;
+
+  & > * {
+    margin-right: 1rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  //TODO. Shitty code, the solution depends on amount of nested folders, if the
+  // amount of them is too high - the magic will be destroyed
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 500%;
+    height: 100%;
+    transform: translateX(-10vw);
+
+    background-color: rgba($color: $main_bg, $alpha: 0.1);
+
+    transition: opacity 0.1s ease-out;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+  }
+
+  .chevron_hidden {
+    opacity: 0;
+  }
+
+  .item_icon_folder {
+    flex-shrink: 0;
+    font-size: 1.8rem;
+  }
+
+  .item_icon_file {
+    flex-shrink: 0;
+    font-size: 1.6rem;
+  }
+
+  .p_item {
+    font-size: 1.25rem;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.active {
+  .chevron {
+    transform: rotateZ(90deg);
+  }
+}

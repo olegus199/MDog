@@ -1,0 +1,56 @@
+@import "../colors.scss";
+
+.sidebar {
+  position: relative;
+
+  // padding-top: 6.875rem;
+  max-height: 100vh;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background-color: $main_dark;
+  color: $main_bg;
+
+  z-index: 3;
+
+  flex-shrink: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .file_manager {
+    opacity: 0;
+
+    margin-top: 6.875rem;
+
+    user-select: none;
+  }
+
+  .file_manager_visible {
+    opacity: 1;
+  }
+
+  .resize_handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 100%;
+
+    cursor: col-resize;
+
+    background-color: #3692f9;
+    opacity: 0;
+    transition: opacity 0.08s ease-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .handle_visible {
+    opacity: 1;
+  }
+}

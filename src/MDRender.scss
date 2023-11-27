@@ -1,0 +1,31 @@
+$gray1: #000c2a;
+$gray2: #081b4b;
+$gray3: #24335a;
+$gray4: #4d5b7c;
+$gray5: #8a96b5;
+$gray6: #a9b3ca;
+$gray7: #d6dcea;
+$gray8: #e3e8f4;
+$gray9: #eff2fb;
+$gray10: #f9fafe;
+
+.output {
+  margin: 1rem;
+
+  color: $gray4;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    a {
+      &:hover,
+      &:focus {
+        color: $gray1;
+        background-size: 0 0;
+      }
+    }
+  }
+}

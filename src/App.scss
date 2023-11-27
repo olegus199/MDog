@@ -1,0 +1,156 @@
+@import "./colors.scss";
+
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-Light.ttf) format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url(../fonts/Poppins-SemiBold.ttf) format("truetype");
+  font-weight: 600;
+}
+
+// Resetting markdown-it's settings
+.my_icon {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+.my_h1,
+.my_p,
+.my_hr {
+  margin: 0;
+  font-family: "Poppins";
+}
+
+// My styling
+
+.App {
+  display: flex;
+}
+
+.content_section {
+  flex-grow: 1;
+
+  max-height: 100vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.titlebar {
+  background-color: #e3f2ff;
+  height: 1.375rem;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+
+  overflow-y: hidden;
+
+  // padding: 0.1rem 0; should have this value when scrolling md document down;
+  padding: 1.875rem 0;
+  padding-left: 5rem;
+
+  background-color: $light_bg;
+
+  box-shadow: 0px 2px 0px $main_grey;
+
+  .explorer_icon {
+    cursor: pointer;
+
+    padding: 7px;
+
+    transition: 0.2s cubic-bezier(0.41, -0.77, 0.59, 2.01);
+
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+
+  .my_h1 {
+    color: $main_dark;
+    font-weight: 600;
+
+    margin-left: 1em;
+
+    user-select: none;
+  }
+
+  .little_dog {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0 auto;
+
+    margin-top: 6.5rem;
+    transition: margin-top 0.3s ease-out;
+  }
+
+  .little_dog_animation {
+    margin-top: 3.3rem;
+  }
+}
+
+.main_content {
+  padding: 0 2rem;
+  .my_p {
+    color: $main_dark;
+
+    font-size: 1.25rem;
+    font-weight: 300;
+
+    max-width: fit-content;
+
+    margin: 0 auto;
+    margin-top: 6em;
+
+    span {
+      background-color: rgba($color: $main_dark, $alpha: 0.63);
+      color: $main_bg;
+      padding: 0.1rem 0.5rem 0.2rem;
+      border-radius: 20px;
+      font-weight: 00;
+    }
+  }
+
+  .icon_wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    .dog,
+    .ground {
+      z-index: -1;
+    }
+
+    .dog {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transition: bottom 0.4s ease-out;
+    }
+
+    .dog_animation {
+      bottom: -16rem;
+    }
+  }
+}
+
+@media (max-width: 1920px) and (max-height: 730px) {
+  .icon_wrapper {
+    width: 50vw;
+  }
+}

@@ -1,0 +1,14 @@
+@import "../../colors.scss";
+
+.nested_file_list {
+  margin-left: 1.25rem;
+
+  border-left: 2px solid rgba($color: $main_bg, $alpha: 0.1);
+}
+
+.escape {
+  background-color: rgba($color: $main_bg, $alpha: 0.1);
+  width: fit-content;
+  padding: 8px;
+  cursor: pointer;
+}
