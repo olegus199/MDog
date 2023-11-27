@@ -73,8 +73,17 @@ jobs:
           npm i -g pnpm
           pnpm install --no-frozen-lockfile
 
+      - name: debug install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+      - name: debug install tree
+        run: brew install tree
+
       - name: Build application
         run: pnpm tauri build -- --target ${{ matrix.target }}
+
+      - name: debug run tree
+        run: tree ./
 
       - name: Upload bundles
         uses: actions/upload-artifact@v2
