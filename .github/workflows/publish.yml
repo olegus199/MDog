@@ -86,8 +86,8 @@ jobs:
       - name: Rename binaries
         run: |
           mv ./bundles-macos-latest/dmg/MDog_${{ needs.version.outputs.version }}_x64.dmg ./mdog-v${{ needs.version.outputs.version }}-darwin.dmg
-          mv ./bundles-ubuntu-20.04/appimage/mdog_${{ needs.version.outputs.version }}_amd64.AppImage ./mdog-v${{ needs.version.outputs.version }}-linux.AppImage
-          mv ./bundles-ubuntu-20.04/deb/mdog_${{ needs.version.outputs.version }}_amd64.deb ./mdog-v${{ needs.version.outputs.version }}-linux.deb
+          mv ./bundles-ubuntu-20.04/appimage/m-dog_${{ needs.version.outputs.version }}_amd64.AppImage ./mdog-v${{ needs.version.outputs.version }}-linux.AppImage
+          mv ./bundles-ubuntu-20.04/deb/m-dog_${{ needs.version.outputs.version }}_amd64.deb ./mdog-v${{ needs.version.outputs.version }}-linux.deb
           mv ./bundles-windows-latest/msi/MDog_${{ needs.version.outputs.version }}_x64_en-US.msi ./mdog-v${{ needs.version.outputs.version }}-windows.msi
 
       - name: Draft release
