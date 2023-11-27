@@ -1,0 +1,131 @@
+name: Publish MDog
+
+on:
+  repository_dispatch:
+    types: [manual-build]
+
+permissions: write-all
+
+jobs:
+  version:
+    name: Extract version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.extract_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+
+      - name: Extract version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.2.1
+
+  package:
+    name: Package
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [ 18 ] 
+        # platform: [ macos-latest, ubuntu-20.04, windows-latest ]
+        include:
+          # - os: ubuntu-latest
+          #   target: x86_64-unknown-linux-gnu
+          # - os: windows-latest
+          #   target: x86_64-pc-windows-msvc
+          - os: macos-latest
+            target: x86_64-apple-darwin
+          - os: macos-latest
+            target: aarch64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    needs: version
+    steps:
+      - name: Information
+        run: echo "Building MDog version ${{ needs.version.outputs.version }} for ${{ matrix.os }}"
+        
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Add aarch64 target
+        if: matrix.target == 'aarch64-apple-darwin'
+        run: rustup target add aarch64-apple-darwin
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Linux dependencies
+        if: matrix.os == 'ubuntu-20.04'
+        run: |
+          sudo apt update
+          sudo apt install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev
+
+      - name: Frontend dependencies
+        run: |
+          npm i -g pnpm
+          pnpm install --no-frozen-lockfile
+
+      - name: debug install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+      - name: debug install tree
+        run: brew install tree
+
+      - name: Build application
+        run: pnpm tauri build -- --target ${{ matrix.target }} -v
+
+      - name: debug run tree
+        if: ${{ always() }}
+        run: tree ./
+
+      - name: Upload bundles
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundles-${{ matrix.os }}
+          path: ./src-tauri/target/release/bundle
+  release:
+    name: Release binaries
+    runs-on: ubuntu-latest
+    needs:
+      - version
+      - package
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Debug
+        run: |
+          sudo apt install tree
+          tree
+
+      - name: Rename binaries
+        run: |
+          mv ./bundles-macos-latest/dmg/MDog_${{ needs.version.outputs.version }}_x64.dmg ./mdog-v${{ needs.version.outputs.version }}-darwin_x64.dmg
+          mv ./bundles-macos-latest/dmg/MDog_${{ needs.version.outputs.version }}_aarch64.dmg ./mdog-v${{ needs.version.outputs.version }}-darwin_aarch64.dmg
+
+      - name: Draft release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "v${{ needs.version.outputs.version }}"
+          prerelease: false
+          draft: true
+          title: "v${{ needs.version.outputs.version }}"
+          files: |
+            ./mdog-v${{ needs.version.outputs.version }}-darwin_x64.dmg
+            ./mdog-v${{ needs.version.outputs.version }}-darwin_arch64.dmg
+            ./mdog-v${{ needs.version.outputs.version }}-linux.AppImage
+            ./mdog-v${{ needs.version.outputs.version }}-linux.deb
+            ./mdog-v${{ needs.version.outputs.version }}-windows.msi
+      
+          # mv ./bundles-ubuntu-20.04/appimage/m-dog_${{ needs.version.outputs.version }}_amd64.AppImage ./mdog-v${{ needs.version.outputs.version }}-linux.AppImage
+          # mv ./bundles-ubuntu-20.04/deb/m-dog_${{ needs.version.outputs.version }}_amd64.deb ./mdog-v${{ needs.version.outputs.version }}-linux.deb
+          # mv ./bundles-windows-latest/msi/MDog_${{ needs.version.outputs.version }}_x64_en-US.msi ./mdog-v${{ needs.version.outputs.version }}-windows.msi
