@@ -1,0 +1,21 @@
+@import "../../colors.scss";
+
+.right_click_menu {
+  position: fixed;
+
+  font-family: "Poppins";
+
+  padding: 0.5rem 1rem;
+
+  background-color: rgba($color: $nice_pink, $alpha: 1);
+  box-shadow: 0 4px 4px rgba($color: #000000, $alpha: 0.1);
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  z-index: 999;
+
+  &:hover {
+    filter: brightness(110%);
+  }
+}

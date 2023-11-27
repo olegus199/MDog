@@ -11,9 +11,6 @@
 
   cursor: pointer;
 
-  // user-select: none;
-  // -webkit-user-select: none;
-
   & > * {
     margin-right: 1rem;
 
@@ -64,10 +61,15 @@
 
   .p_item {
     font-size: 1.25rem;
+    font-weight: 400;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .p_file {
+    font-weight: 300;
   }
 }
 
