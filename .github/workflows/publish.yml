@@ -40,7 +40,7 @@ jobs:
     needs: version
     steps:
       - name: Information
-        run: echo "Building MDog version ${{ needs.version.outputs.version }} for ${{ matrix.os }}"
+        run: echo "Building MDog version ${{ needs.version.outputs.version }} for ${{ matrix.os }}_${{ matrix.target }}"
         
       - name: Code checkout
         uses: actions/checkout@v3
