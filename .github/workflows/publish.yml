@@ -83,6 +83,7 @@ jobs:
         run: pnpm tauri build -- --target ${{ matrix.target }}
 
       - name: debug run tree
+        if: ${{ always() }}
         run: tree ./
 
       - name: Upload bundles
