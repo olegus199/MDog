@@ -27,6 +27,7 @@ jobs:
       matrix:
         node-version: [ 18 ] 
         # platform: [ macos-latest, ubuntu-20.04, windows-latest ]
+        platform: [ macos-latest ]
         include:
           # - os: ubuntu-latest
           #   target: x86_64-unknown-linux-gnu
@@ -73,18 +74,18 @@ jobs:
           npm i -g pnpm
           pnpm install --no-frozen-lockfile
 
-      - name: debug install brew
-        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      # - name: debug install brew
+      #   run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-      - name: debug install tree
-        run: brew install tree
+      # - name: debug install tree
+      #   run: brew install tree
 
       - name: Build application
-        run: pnpm tauri build --target ${{ matrix.target }} -v
+        run: pnpm tauri build --target ${{ matrix.target }}
 
-      - name: debug run tree
-        if: ${{ always() }}
-        run: tree ./
+      # - name: debug run tree
+      #   if: ${{ always() }}
+      #   run: tree ./
 
       - name: Upload bundles
         if: matrix.target != 'aarch64-apple-darwin'
