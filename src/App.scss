@@ -124,7 +124,8 @@
     margin-top: 6em;
 
     span {
-      background-color: rgba($color: $main_dark, $alpha: 0.63);
+      // background-color: rgba($color: $main_dark, $alpha: 0.63);
+      background-color: $nice_pink;
       color: $main_bg;
       padding: 0.1rem 0.5rem 0.2rem;
       border-radius: 20px;
