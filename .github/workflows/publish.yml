@@ -61,7 +61,7 @@ jobs:
           pnpm install --no-frozen-lockfile
 
       - name: Build application
-        run: pnpm tauri build --target ${{ matrix.target }}
+        run: pnpm tauri build
 
       - name: Upload bundles
         uses: actions/upload-artifact@v2
