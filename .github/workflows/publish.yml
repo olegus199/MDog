@@ -87,10 +87,19 @@ jobs:
         run: tree ./
 
       - name: Upload bundles
+        if: matrix.target != 'aarch64-apple-darwin'
         uses: actions/upload-artifact@v2
         with:
           name: bundles-${{ matrix.os }}
           path: ./src-tauri/target/release/bundle
+          
+      - name: Upload bundles aarch64
+        if: matrix.target == 'aarch64-apple-darwin'
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundles-${{ matrix.os }}
+          path: ./src-tauri/target/aarch64-apple-darwin/release/bundle
+          
   release:
     name: Release binaries
     runs-on: ubuntu-latest
