@@ -58,28 +58,27 @@
   overflow-y: hidden;
 
   // padding: 0.1rem 0; should have this value when scrolling md document down;
-  padding: 1.875rem 0;
+  padding: 0.8rem 0;
   padding-left: 5rem;
 
   background-color: $light_bg;
 
   box-shadow: 0px 2px 0px $main_grey;
 
+  user-select: none;
+  -webkit-user-select: none;
+
   .explorer_icon {
     cursor: pointer;
-
-    padding: 7px;
-
-    transition: 0.2s cubic-bezier(0.41, -0.77, 0.59, 2.01);
-
-    &:hover {
-      filter: brightness(120%);
-    }
+    padding: 0.5rem;
+    font-size: 1.8rem;
+    color: $main_dark;
   }
 
   .my_h1 {
     color: $main_dark;
     font-weight: 600;
+    font-size: 1.875rem;
 
     margin-left: 1em;
 
@@ -106,6 +105,7 @@
 
 .main_content {
   padding: 0 2rem;
+
   .my_p {
     color: $main_dark;
 
@@ -127,13 +127,9 @@
   }
 
   .icon_wrapper {
-    // position: absolute;
-    // bottom: 0;
-    // right: 0;
-
     .dog,
     .ground {
-      z-index: -1;
+      // z-index: -1;
 
       width: 100%;
       max-width: 954px;

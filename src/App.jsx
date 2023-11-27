@@ -1,15 +1,17 @@
 import MDRender from "./MDRender";
 import "./App.scss";
-import { useEffect, useRef, useState } from "react";
-import icon_explorer from "../src/assets/icon-explorer.svg";
+import { useEffect, useRef } from "react";
+import { IoFileTrayFull } from "react-icons/io5";
 import dog from "../src/assets/new_dog.svg";
 import ground from "../src/assets/ground.svg";
 import little_dog from "../src/assets/new_little_dog.svg";
 import Sidebar from "./components/Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { set_open } from "./state/SidebarOpenSlice";
 
 function App() {
-  const [explorer_opened, set_explorer_opened] = useState(false);
+  const sidebar_open = useSelector((state) => state.sidebar_open.is_open);
+  const dispatch = useDispatch();
 
   const little_dog_ref = useRef(null);
   const header_ref = useRef(null);
@@ -20,14 +22,14 @@ function App() {
 
   const random_number = Math.floor(Math.random() * (1000 - 300)) + 300;
 
-  const handle_explorer_click = () => {
-    if (explorer_opened) {
-      set_explorer_opened(false);
+  const handle_sidebar_open = () => {
+    if (sidebar_open) {
+      dispatch(set_open(false));
 
       header_ref.current.style.paddingLeft = "5rem";
       // dog_ref.current.classList.remove("dog_animation");
     } else {
-      set_explorer_opened(true);
+      dispatch(set_open(true));
 
       header_ref.current.style.paddingLeft = "2.5rem";
       // dog_ref.current.classList.add("dog_animation");
@@ -47,18 +49,22 @@ function App() {
       className="App"
       id={is_resizing ? "sidebar_resizing" : ""}
     >
-      <Sidebar explorer_opened={explorer_opened} />
+      <Sidebar />
       <div className="content_section">
         <div
           className="header"
           ref={header_ref}
           data-tauri-drag-region
         >
-          <img
+          {/* <img
             src={icon_explorer}
             alt="icon explorer"
             className="my_icon explorer_icon"
-            onClick={handle_explorer_click}
+            onClick={handle_sidebar_open}
+          /> */}
+          <IoFileTrayFull
+            className="my_icon explorer_icon"
+            onClick={handle_sidebar_open}
           />
           <h1 className="my_h1">MDog</h1>
           <img

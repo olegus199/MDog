@@ -3,10 +3,9 @@
 .sidebar {
   position: relative;
 
-  // padding-top: 6.875rem;
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  // height: 100vh;
 
   background-color: $main_dark;
   color: $main_bg;
@@ -15,16 +14,22 @@
 
   flex-shrink: 0;
 
-  &::-webkit-scrollbar {
-    display: none;
+  .upper_border {
+    height: 74px;
   }
 
   .file_manager {
+    position: relative;
     opacity: 1;
 
-    margin-top: 6.875rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 6.75rem);
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
-    user-select: none;
+    // user-select: none;
   }
 
   .resize_handle {
@@ -37,7 +42,7 @@
     cursor: col-resize;
 
     background-color: #3692f9;
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.08s ease-out;
 
     &:hover {
