@@ -10,8 +10,6 @@ import { useSelector } from "react-redux";
 
 function App() {
   const [explorer_opened, set_explorer_opened] = useState(false);
-  const [sidebar_content_visible, set_sidebar_content_visible] =
-    useState(false);
 
   const little_dog_ref = useRef(null);
   const header_ref = useRef(null);
@@ -25,7 +23,6 @@ function App() {
   const handle_explorer_click = () => {
     if (explorer_opened) {
       set_explorer_opened(false);
-      set_sidebar_content_visible(false);
 
       header_ref.current.style.paddingLeft = "5rem";
       // dog_ref.current.classList.remove("dog_animation");
@@ -34,8 +31,6 @@ function App() {
 
       header_ref.current.style.paddingLeft = "2.5rem";
       // dog_ref.current.classList.add("dog_animation");
-
-      set_sidebar_content_visible(true);
     }
   };
 
@@ -52,10 +47,7 @@ function App() {
       className="App"
       id={is_resizing ? "sidebar_resizing" : ""}
     >
-      <Sidebar
-        explorer_opened={explorer_opened}
-        sidebar_content_visible={sidebar_content_visible}
-      />
+      <Sidebar explorer_opened={explorer_opened} />
       <div className="content_section">
         <div
           className="header"

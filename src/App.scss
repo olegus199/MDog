@@ -112,7 +112,7 @@
     font-size: 1.25rem;
     font-weight: 300;
 
-    max-width: fit-content;
+    width: fit-content;
 
     margin: 0 auto;
     margin-top: 6em;
@@ -127,19 +127,23 @@
   }
 
   .icon_wrapper {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    // position: absolute;
+    // bottom: 0;
+    // right: 0;
 
     .dog,
     .ground {
       z-index: -1;
-    }
 
-    .dog {
+      width: 100%;
+      max-width: 954px;
+
       position: absolute;
       bottom: 0;
       right: 0;
+    }
+
+    .dog {
       transition: bottom 0.4s ease-out;
     }
 
@@ -149,8 +153,13 @@
   }
 }
 
-@media (max-width: 1920px) and (max-height: 730px) {
-  .icon_wrapper {
-    width: 50vw;
+@media (max-width: 1800px), (max-height: 750px) {
+  .main_content {
+    .icon_wrapper {
+      .dog,
+      .ground {
+        width: 49%;
+      }
+    }
   }
 }

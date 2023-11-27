@@ -58,26 +58,25 @@ export default function FileList({ new_directory }) {
   const regex = /^[\w$@#%&*^`~'"|_-]+\.md$/;
 
   const handle_double_click = async (name, type) => {
-    if (type === "folder") {
-      const new_path = `${current_path}/${name}`;
-      await invoke("change_directory", {
-        to: new_path,
-      });
-      set_current_path(new_path);
+    // if (type === "folder") {
+    //   const new_path = `${current_path}/${name}`;
+    //   await invoke("change_directory", {
+    //     to: new_path,
+    //   });
+    //   set_current_path(new_path);
 
-      const response = await invoke("list_current_directory");
-      const filtered_response = filter_response(response);
-      set_current_files(filtered_response);
-    } else {
-      if (regex.test(name)) {
-        const get_md_content = async () => {
-          const response = await invoke("get_md_content", {
-            filePath: `${current_path}/${name}`,
-          });
-          dispatch(set_content(response));
-        };
-        get_md_content();
-      }
+    //   const response = await invoke("list_current_directory");
+    //   const filtered_response = filter_response(response);
+    //   set_current_files(filtered_response);
+    // }
+    if (type === "file" && regex.test(name)) {
+      const get_md_content = async () => {
+        const response = await invoke("get_md_content", {
+          filePath: `${current_path}/${name}`,
+        });
+        dispatch(set_content(response));
+      };
+      get_md_content();
     }
   };
 
@@ -107,12 +106,12 @@ export default function FileList({ new_directory }) {
 
   return (
     <>
-      <div
+      {/* <div
         onClick={handle_escape}
         className="escape"
       >
         escape
-      </div>
+      </div> */}
       {current_files.map((file, index) => (
         <div key={index}>
           <FileItem

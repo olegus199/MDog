@@ -4,12 +4,11 @@ import FileList from "./FileManager/FileList";
 import { useDispatch, useSelector } from "react-redux";
 import { resizing } from "../state/ResizingSlice";
 
-export default function Sidebar({ explorer_opened, sidebar_content_visible }) {
+export default function Sidebar({ explorer_opened }) {
   const sidebar_ref = useRef(null);
   const filemanager_ref = useRef(null);
   const resize_handle_ref = useRef(null);
   const [sidebar_width, set_sidebar_width] = useState(0);
-  const [class_names, set_class_names] = useState("file_manager");
 
   const dispatch = useDispatch();
   const is_content_loaded = useSelector((state) => state.content.is_loaded);
@@ -23,11 +22,11 @@ export default function Sidebar({ explorer_opened, sidebar_content_visible }) {
     }
   }, [explorer_opened]);
 
-  useEffect(() => {
-    if (is_content_loaded) {
-      filemanager_ref.current.style.height = "fit-content";
-    }
-  }, [is_content_loaded]);
+  // useEffect(() => {
+  //   if (is_content_loaded) {
+  //     filemanager_ref.current.style.height = "fit-content";
+  //   }
+  // }, [is_content_loaded]); // Is this code even needed??
 
   const handle_mouse_down = (e) => {
     e.preventDefault();
@@ -63,20 +62,14 @@ export default function Sidebar({ explorer_opened, sidebar_content_visible }) {
     };
   }, [is_resizing]);
 
-  useEffect(() => {
-    sidebar_content_visible
-      ? set_class_names("file_manager file_manager_visible")
-      : set_class_names("file_manager");
-  }, [sidebar_content_visible]);
-
   return (
     <div
-      className="sidebar sidebar_toggled"
+      className="sidebar"
       style={{ width: sidebar_width }}
       ref={sidebar_ref}
     >
       <div
-        className={class_names}
+        className="file_manager"
         ref={filemanager_ref}
       >
         <FileList />

@@ -4,7 +4,6 @@
   position: relative;
 
   // padding-top: 6.875rem;
-  max-height: 100vh;
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
@@ -21,15 +20,11 @@
   }
 
   .file_manager {
-    opacity: 0;
+    opacity: 1;
 
     margin-top: 6.875rem;
 
     user-select: none;
-  }
-
-  .file_manager_visible {
-    opacity: 1;
   }
 
   .resize_handle {
@@ -42,7 +37,7 @@
     cursor: col-resize;
 
     background-color: #3692f9;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.08s ease-out;
 
     &:hover {
