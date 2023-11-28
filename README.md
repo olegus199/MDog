@@ -16,6 +16,10 @@ npm run tauri build
 
 ![main_window](https://github.com/olegus199/MDog/assets/128966780/8ba9bc34-5b2c-4289-bafd-4125c8958a9a)
 
+# Installation
+
+You can build it yourself, or just download packages from [Releases](https://github.com/olegus199/MDog/releases) page.
+
 ## On a mac:
 
 When an application gets downloaded from any source other than those that Apple seems suited, the application gets an extended attribute "com.apple.Quarantine". This triggers the message:
