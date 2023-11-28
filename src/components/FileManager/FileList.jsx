@@ -5,7 +5,11 @@ import "./FileList.scss";
 import { useDispatch } from "react-redux";
 import { set_content } from "../../state/MDContentSlice";
 
-export default function FileList({ new_directory }) {
+export default function FileList({
+  new_directory,
+  active_item,
+  set_active_item,
+}) {
   const [current_path, set_current_path] = useState("");
   const [current_files, set_current_files] = useState([]);
   const [selected_path, set_selected_path] = useState("");
@@ -120,10 +124,16 @@ export default function FileList({ new_directory }) {
             regex={regex}
             on_click={handle_click}
             on_double_click={handle_double_click}
+            active_item={active_item}
+            set_active_item={set_active_item}
           />
           <div className="nested_file_list">
             {expanded_items.includes(`${current_path}/${file.name}`) && (
-              <FileList new_directory={selected_path} />
+              <FileList
+                new_directory={selected_path}
+                active_item={active_item}
+                set_active_item={set_active_item}
+              />
             )}
           </div>
         </div>

@@ -12,9 +12,10 @@ export default function FileItem({
   regex,
   on_click,
   on_double_click,
+  active_item,
+  set_active_item,
 }) {
   const [item_active, set_item_active] = useState(false);
-  const [menu_visible, set_menu_visible] = useState(false);
   const [menu_position, set_menu_position] = useState({ top: 0, left: 0 });
   const is_resizing = useSelector((state) => state.resize.is_resizing);
 
@@ -29,12 +30,12 @@ export default function FileItem({
   };
 
   const handle_context_menu = (event) => {
-    event.preventDefault();
     set_menu_position({
       top: event.clientY,
       left: event.clientX,
     });
-    set_menu_visible(!menu_visible);
+
+    set_active_item(name);
   };
 
   const class_names = type === "folder" ? "my_p p_item" : "my_p p_item p_file";
@@ -64,11 +65,18 @@ export default function FileItem({
         )}
         <p className={class_names}>{name}</p>
       </div>
-      <RightClickMenu
-        is_visible={menu_visible}
-        top={menu_position.top}
-        left={menu_position.left}
-      />
+      {active_item === name &&
+      ((type === "file" && regex.test(name)) || type === "folder") ? (
+        <RightClickMenu
+          top={menu_position.top}
+          left={menu_position.left}
+          type={type}
+          name={name}
+          regex={regex}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -1,7 +1,22 @@
 import "./RightClickMenu.scss";
 
-export default function RightClickMenu({ is_visible, top, left }) {
-  if (!is_visible) return null;
+export default function RightClickMenu({
+  is_visible,
+  top,
+  left,
+  type,
+  name,
+  regex,
+}) {
+  const text = () => {
+    if (type === "folder") {
+      return "go to folder";
+    } else {
+      if (regex.test(name)) {
+        return "open file";
+      }
+    }
+  };
 
   return (
     <div
@@ -9,10 +24,10 @@ export default function RightClickMenu({ is_visible, top, left }) {
         top: `${top}px`,
         left: `${left}px`,
       }}
-      className="right_click_menu"
+      className="context_menu"
       onContextMenu={(event) => event.preventDefault()}
     >
-      go to folder
+      {text()}
     </div>
   );
 }

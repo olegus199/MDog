@@ -9,11 +9,13 @@ export default function Sidebar() {
   const filemanager_ref = useRef(null);
   const resize_handle_ref = useRef(null);
   const [sidebar_width, set_sidebar_width] = useState(0);
+  const [active_item, set_active_item] = useState(null);
 
   const dispatch = useDispatch();
   const is_resizing = useSelector((state) => state.resize.is_resizing);
   const sidebar_open = useSelector((state) => state.sidebar_open.is_open);
 
+  // Props for toggled sidebar
   useEffect(() => {
     if (sidebar_open) {
       set_sidebar_width(270);
@@ -22,14 +24,15 @@ export default function Sidebar() {
     }
   }, [sidebar_open]);
 
-  const handle_mouse_down = (e) => {
-    e.preventDefault();
+  // Resizing logic
+  const handle_mouse_down = (event) => {
+    event.preventDefault();
     dispatch(resizing(true));
   };
 
-  const handle_mouse_move = (e) => {
+  const handle_mouse_move = (event) => {
     if (is_resizing) {
-      const new_width = Math.min(Math.max(e.clientX, 270), 550);
+      const new_width = Math.min(Math.max(event.clientX, 270), 550);
       set_sidebar_width(new_width);
     }
   };
@@ -56,23 +59,23 @@ export default function Sidebar() {
     };
   }, [is_resizing]);
 
-  const prevent_selection = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <div
       className="sidebar"
       style={{ width: sidebar_width }}
       ref={sidebar_ref}
-      onMouseDown={prevent_selection}
+      onMouseDown={(e) => e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
     >
       <div className="upper_border"></div>
       <div
         className="file_manager"
         ref={filemanager_ref}
       >
-        <FileList />
+        <FileList
+          active_item={active_item}
+          set_active_item={set_active_item}
+        />
       </div>
       <div
         className="resize_handle"
