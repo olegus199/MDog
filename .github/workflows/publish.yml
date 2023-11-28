@@ -149,7 +149,7 @@ jobs:
           title: "v${{ needs.version.outputs.version }}"
           files: |
             ./mdog-v${{ needs.version.outputs.version }}-darwin_x64.dmg
-            ./mdog-v${{ needs.version.outputs.version }}-darwin_arch64.dmg
+            ./mdog-v${{ needs.version.outputs.version }}-darwin_aarch64.dmg
             ./mdog-v${{ needs.version.outputs.version }}-linux.AppImage
             ./mdog-v${{ needs.version.outputs.version }}-linux.deb
             ./mdog-v${{ needs.version.outputs.version }}-windows.msi
