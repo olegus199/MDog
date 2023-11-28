@@ -26,3 +26,4 @@ To fix that type in terminal:
 ```bash
 xattr -c MDog.app/Contents/MacOS/MDog
 ```
+This happens on macos 13.6.1 for example, but not on 10.15, so act according to the situation.
