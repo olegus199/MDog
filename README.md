@@ -18,7 +18,7 @@ npm run tauri build
 
 # Installation
 
-You can build it yourself, or just download packages from [Releases](https://github.com/olegus199/MDog/releases) page.
+You can build it yourself, or just download packages from the [Releases](https://github.com/olegus199/MDog/releases) page.
 
 ## On a mac:
 
