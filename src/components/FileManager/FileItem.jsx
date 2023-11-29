@@ -1,6 +1,8 @@
 import { FaChevronRight } from "react-icons/fa6";
-import { HiMiniFolder, HiMiniFolderOpen } from "react-icons/hi2";
+import { GoFile } from "react-icons/go";
+import { BsFileEarmark, BsFiletypeMd } from "react-icons/bs";
 import { LuFile, LuFileText } from "react-icons/lu";
+import { AiFillFolder, AiFillFolderOpen } from "react-icons/ai";
 import "./FileItem.scss";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -38,8 +40,6 @@ export default function FileItem({
     set_active_item(name);
   };
 
-  const class_names = type === "folder" ? "my_p p_item" : "my_p p_item p_file";
-
   return (
     <>
       <div
@@ -54,16 +54,16 @@ export default function FileItem({
         />
         {type === "folder" ? (
           item_active ? (
-            <HiMiniFolderOpen className="item_icon_folder" />
+            <AiFillFolderOpen className="item_icon_folder" />
           ) : (
-            <HiMiniFolder className="item_icon_folder" />
+            <AiFillFolder className="item_icon_folder" />
           )
         ) : regex.test(name) ? (
-          <LuFileText className="item_icon_file" />
+          <BsFiletypeMd className="item_icon_file" />
         ) : (
-          <LuFile className="item_icon_file" />
+          <BsFileEarmark className="item_icon_file" />
         )}
-        <p className={class_names}>{name}</p>
+        <p className="my_p p_item">{name}</p>
       </div>
       {active_item === name &&
       ((type === "file" && regex.test(name)) || type === "folder") ? (

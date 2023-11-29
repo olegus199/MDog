@@ -2,14 +2,19 @@
 
 .context_menu {
   position: fixed;
+  display: flex;
+  align-items: center;
 
   font-family: "Poppins";
+  font-size: 0.875rem;
+  font-weight: 300;
 
-  padding: 0.5rem 1rem;
+  padding: 0.3em 0.5em;
 
-  background-color: rgba($color: $nice_pink, $alpha: 1);
-  box-shadow: 0 4px 4px rgba($color: #000000, $alpha: 0.1);
-  border-radius: 10px;
+  background-color: #858c9c;
+  color: $main_bg;
+  box-shadow: 0 0px 4px 1px rgba($color: #000000, $alpha: 0.1);
+  border-radius: 3px;
 
   cursor: pointer;
 
@@ -17,5 +22,9 @@
 
   &:hover {
     filter: brightness(110%);
+  }
+
+  .icon_context_menu {
+    margin-left: 1rem;
   }
 }

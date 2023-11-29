@@ -6,17 +6,16 @@
 
   position: relative;
 
-  margin-bottom: 0.2rem;
-  padding: 0.5rem 1rem;
+  // margin-bottom: 0.1rem;
+  padding: 0.3rem 0.5rem;
 
   cursor: pointer;
 
-  & > * {
-    margin-right: 1rem;
-
-    &:last-child {
-      margin-right: 0;
-    }
+  & > *:nth-child(1) {
+    margin-right: 0.5rem;
+  }
+  & > *:nth-child(2) {
+    margin-right: 0.2rem;
   }
 
   //TODO. Shitty code, the solution depends on amount of nested folders, if the
@@ -42,7 +41,7 @@
 
   .chevron {
     flex-shrink: 0;
-    font-size: 0.9rem;
+    font-size: 0.5rem;
   }
 
   .chevron_hidden {
@@ -51,25 +50,25 @@
 
   .item_icon_folder {
     flex-shrink: 0;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+
+    color: $nice_pink;
   }
 
   .item_icon_file {
     flex-shrink: 0;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
+    margin: 0 0.2rem 0;
+    color: $nice_pink;
   }
 
   .p_item {
-    font-size: 1.25rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 300;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .p_file {
-    font-weight: 300;
   }
 }
 
