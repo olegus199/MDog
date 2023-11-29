@@ -3,6 +3,7 @@ import "./Sidebar.scss";
 import FileList from "./FileManager/FileList";
 import { useDispatch, useSelector } from "react-redux";
 import { resizing } from "../state/ResizingSlice";
+import { set_open } from "../state/SidebarOpenSlice";
 
 export default function Sidebar() {
   const sidebar_ref = useRef(null);
@@ -34,6 +35,11 @@ export default function Sidebar() {
     if (is_resizing) {
       const new_width = Math.min(Math.max(event.clientX, 220), 400);
       set_sidebar_width(new_width);
+
+      if (event.clientX < 20) {
+        dispatch(resizing(false));
+        dispatch(set_open(false));
+      }
     }
   };
 
