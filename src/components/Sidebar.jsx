@@ -19,7 +19,7 @@ export default function Sidebar() {
   // Props for toggled sidebar
   useEffect(() => {
     if (sidebar_open) {
-      set_sidebar_width(220);
+      set_sidebar_width(180);
     } else {
       set_sidebar_width(0);
     }
@@ -33,7 +33,7 @@ export default function Sidebar() {
 
   const handle_mouse_move = (event) => {
     if (is_resizing) {
-      const new_width = Math.min(Math.max(event.clientX, 220), 400);
+      const new_width = Math.min(Math.max(event.clientX, 75), 400);
       set_sidebar_width(new_width);
 
       if (event.clientX < 20) {
