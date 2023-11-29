@@ -1,10 +1,8 @@
 import { FaChevronRight } from "react-icons/fa6";
-import { GoFile } from "react-icons/go";
 import { BsFileEarmark, BsFiletypeMd } from "react-icons/bs";
-import { LuFile, LuFileText } from "react-icons/lu";
 import { AiFillFolder, AiFillFolderOpen } from "react-icons/ai";
 import "./FileItem.scss";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import RightClickMenu from "./RightClickMenu";
 
@@ -19,6 +17,7 @@ export default function FileItem({
 }) {
   const [item_active, set_item_active] = useState(false);
   const [menu_position, set_menu_position] = useState({ top: 0, left: 0 });
+  const menu_ref = useRef(null);
   const is_resizing = useSelector((state) => state.resize.is_resizing);
 
   const handle_click = () => {
@@ -39,6 +38,19 @@ export default function FileItem({
 
     set_active_item(name);
   };
+
+  const handle_click_outside_menu = (event) => {
+    if (menu_ref.current && !menu_ref.current.contains(event.target)) {
+      set_active_item(null);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handle_click_outside_menu);
+    return () => {
+      window.removeEventListener("click", handle_click_outside_menu);
+    };
+  }, []);
 
   return (
     <>
@@ -67,13 +79,15 @@ export default function FileItem({
       </div>
       {active_item === name &&
       ((type === "file" && regex.test(name)) || type === "folder") ? (
-        <RightClickMenu
-          top={menu_position.top}
-          left={menu_position.left}
-          type={type}
-          name={name}
-          regex={regex}
-        />
+        <div ref={menu_ref}>
+          <RightClickMenu
+            top={menu_position.top}
+            left={menu_position.left}
+            type={type}
+            name={name}
+            regex={regex}
+          />
+        </div>
       ) : (
         ""
       )}
