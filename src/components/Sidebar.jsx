@@ -10,7 +10,7 @@ export default function Sidebar() {
   const filemanager_ref = useRef(null);
   const resize_handle_ref = useRef(null);
   const [sidebar_width, set_sidebar_width] = useState(0);
-  const [active_item, set_active_item] = useState(null);
+  const [active_pop_up, set_active_pop_up] = useState(null);
 
   const dispatch = useDispatch();
   const is_resizing = useSelector((state) => state.resize.is_resizing);
@@ -79,8 +79,8 @@ export default function Sidebar() {
         ref={filemanager_ref}
       >
         <FileList
-          active_item={active_item}
-          set_active_item={set_active_item}
+          active_pop_up={active_pop_up}
+          set_active_pop_up={set_active_pop_up}
         />
       </div>
       <div

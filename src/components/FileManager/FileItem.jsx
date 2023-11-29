@@ -12,8 +12,8 @@ export default function FileItem({
   regex,
   on_click,
   on_double_click,
-  active_item,
-  set_active_item,
+  active_pop_up,
+  set_active_pop_up,
 }) {
   const [item_active, set_item_active] = useState(false);
   const [menu_position, set_menu_position] = useState({ top: 0, left: 0 });
@@ -23,6 +23,7 @@ export default function FileItem({
   const handle_click = () => {
     const new_active = !item_active;
     set_item_active(new_active);
+    set_active_pop_up(null);
     on_click(name, type, new_active);
   };
 
@@ -36,12 +37,12 @@ export default function FileItem({
       left: event.clientX,
     });
 
-    set_active_item(name);
+    set_active_pop_up(name);
   };
 
   const handle_click_outside_menu = (event) => {
     if (menu_ref.current && !menu_ref.current.contains(event.target)) {
-      set_active_item(null);
+      set_active_pop_up(null);
     }
   };
 
@@ -77,7 +78,7 @@ export default function FileItem({
         )}
         <p className="my_p p_item">{name}</p>
       </div>
-      {active_item === name &&
+      {active_pop_up === name &&
       ((type === "file" && regex.test(name)) || type === "folder") ? (
         <div ref={menu_ref}>
           <RightClickMenu
