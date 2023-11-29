@@ -77,14 +77,14 @@
   .explorer_icon {
     cursor: pointer;
     padding: 0.5rem;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: $main_dark;
   }
 
   .my_h1 {
     color: $main_dark;
     font-weight: 600;
-    font-size: 1.875rem;
+    font-size: 1.625rem;
 
     margin-left: 1em;
 
@@ -115,7 +115,7 @@
   .my_p {
     color: $main_dark;
 
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 300;
 
     width: fit-content;
@@ -155,12 +155,12 @@
   }
 }
 
-@media (max-width: 1800px), (max-height: 750px) {
+@media (max-width: 1850px), (max-height: 750px) {
   .main_content {
     .icon_wrapper {
       .dog,
       .ground {
-        width: 49%;
+        width: 48%;
       }
     }
   }

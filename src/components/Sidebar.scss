@@ -15,7 +15,9 @@
   flex-shrink: 0;
 
   .upper_border {
-    height: 74px;
+    height: calc(
+      67px + 2px
+    ); //2px - the width of the border-bottom of the header
   }
 
   .file_manager {
@@ -24,7 +26,7 @@
 
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 74px);
+    height: calc(100vh - 67px - 2px);
     &::-webkit-scrollbar {
       display: none;
     }
@@ -36,7 +38,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 10px;
+    width: 8px;
     height: 100%;
 
     cursor: col-resize;
