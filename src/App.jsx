@@ -55,6 +55,7 @@ function App() {
     <div
       className="App"
       id={is_resizing ? "sidebar_resizing" : ""}
+      onContextMenu={(event) => event.preventDefault()}
     >
       <Sidebar pass_zero_width={handle_zero_sidebar_width} />
       <div className="content_section">

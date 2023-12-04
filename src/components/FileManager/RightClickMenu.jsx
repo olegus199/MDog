@@ -16,7 +16,6 @@ export default function RightClickMenu({ top, left, type, name, regex }) {
   return (
     <div
       className="context_menu"
-      onContextMenu={(event) => event.preventDefault()}
       style={{
         top: `${top}px`,
         left: `${left}px`,
