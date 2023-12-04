@@ -37,8 +37,7 @@ export default function Sidebar() {
       set_sidebar_width(new_width);
 
       if (event.clientX < 20) {
-        dispatch(resizing(false));
-        dispatch(set_open(false));
+        set_sidebar_width(0);
       }
     }
   };
@@ -46,6 +45,12 @@ export default function Sidebar() {
   const handle_mouse_up = () => {
     dispatch(resizing(false));
   };
+
+  useEffect(() => {
+    if (!is_resizing && sidebar_width === 0) {
+      dispatch(set_open(false));
+    }
+  }, [is_resizing, sidebar_width]);
 
   useEffect(() => {
     if (is_resizing) {
