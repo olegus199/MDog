@@ -10,13 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { set_open } from "./state/SidebarOpenSlice";
 
 function App() {
-  const sidebar_open = useSelector((state) => state.sidebar_open.is_open);
-  const dispatch = useDispatch();
-
   const little_dog_ref = useRef(null);
   const header_ref = useRef(null);
   const dog_ref = useRef(null);
 
+  const dispatch = useDispatch();
+  const sidebar_open = useSelector((state) => state.sidebar_open.is_open);
   const is_content_loaded = useSelector((state) => state.content.is_loaded);
   const is_resizing = useSelector((state) => state.resize.is_resizing);
 
@@ -36,6 +35,14 @@ function App() {
     }
   };
 
+  const handle_zero_sidebar_width = (sidebar_width) => {
+    if (sidebar_width === 0) {
+      header_ref.current.style.paddingLeft = "5rem";
+    } else {
+      header_ref.current.style.paddingLeft = "2.5rem";
+    }
+  };
+
   useEffect(() => {
     if (is_content_loaded) {
       setTimeout(() => {
@@ -49,7 +56,7 @@ function App() {
       className="App"
       id={is_resizing ? "sidebar_resizing" : ""}
     >
-      <Sidebar />
+      <Sidebar pass_zero_width={handle_zero_sidebar_width} />
       <div className="content_section">
         <div
           className="header"

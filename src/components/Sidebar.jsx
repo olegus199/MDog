@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { resizing } from "../state/ResizingSlice";
 import { set_open } from "../state/SidebarOpenSlice";
 
-export default function Sidebar() {
+export default function Sidebar({ pass_zero_width }) {
   const sidebar_ref = useRef(null);
   const filemanager_ref = useRef(null);
   const resize_handle_ref = useRef(null);
@@ -51,6 +51,10 @@ export default function Sidebar() {
       dispatch(set_open(false));
     }
   }, [is_resizing, sidebar_width]);
+
+  useEffect(() => {
+    pass_zero_width(sidebar_width);
+  }, [sidebar_width]);
 
   useEffect(() => {
     if (is_resizing) {
