@@ -5,10 +5,10 @@ import { BsFileEarmarkText } from "react-icons/bs";
 export default function RightClickMenu({ top, left, type, name, regex }) {
   const text = () => {
     if (type === "folder") {
-      return "Go to folder";
+      return "go to folder";
     } else {
       if (regex.test(name)) {
-        return "Open file";
+        return "open file";
       }
     }
   };

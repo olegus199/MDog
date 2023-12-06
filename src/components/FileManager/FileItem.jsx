@@ -47,9 +47,9 @@ export default function FileItem({
   };
 
   useEffect(() => {
-    window.addEventListener("click", handle_click_outside_menu);
+    window.addEventListener("mousedown", handle_click_outside_menu);
     return () => {
-      window.removeEventListener("click", handle_click_outside_menu);
+      window.removeEventListener("mousedown", handle_click_outside_menu);
     };
   }, []);
 

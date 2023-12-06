@@ -82,7 +82,10 @@ export default function Sidebar({ pass_zero_width }) {
       onMouseDown={(e) => e.preventDefault()}
       onContextMenu={(e) => e.preventDefault()}
     >
-      <div className="upper_border"></div>
+      <div
+        className="upper_border"
+        data-tauri-drag-region
+      ></div>
       <div
         className="file_manager"
         ref={filemanager_ref}
