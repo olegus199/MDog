@@ -13,9 +13,11 @@ export default function FileList({
   const [current_path, set_current_path] = useState("");
   const [current_files, set_current_files] = useState([]);
   const [selected_path, set_selected_path] = useState("");
-  const [expanded_items, set_expanded_items] = useState([]);
-  console.log(current_path);
+  const [expanded_paths, set_expanded_paths] = useState([]);
+  // console.log(current_path);
   // console.log(current_files);
+  // console.log(selected_path);
+  console.log(expanded_paths);
 
   const dispatch = useDispatch();
 
@@ -51,12 +53,12 @@ export default function FileList({
       const new_path = `${current_path}/${name}`;
       set_selected_path(new_path);
       if (active) {
-        set_expanded_items((prev_expanded_items) => [
+        set_expanded_paths((prev_expanded_items) => [
           ...prev_expanded_items,
           new_path,
         ]);
       } else {
-        set_expanded_items(expanded_items.filter((item) => item !== new_path));
+        set_expanded_paths(expanded_paths.filter((item) => item !== new_path));
       }
     }
   };
@@ -130,7 +132,7 @@ export default function FileList({
             set_active_pop_up={set_active_pop_up}
           />
           <div className="nested_file_list">
-            {expanded_items.includes(`${current_path}/${file.name}`) && (
+            {expanded_paths.includes(`${current_path}/${file.name}`) && (
               <FileList
                 new_directory={selected_path}
                 active_pop_up={active_pop_up}
