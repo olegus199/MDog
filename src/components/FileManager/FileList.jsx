@@ -14,6 +14,8 @@ export default function FileList({
   const [current_files, set_current_files] = useState([]);
   const [selected_path, set_selected_path] = useState("");
   const [expanded_items, set_expanded_items] = useState([]);
+  console.log(current_path);
+  // console.log(current_files);
 
   const dispatch = useDispatch();
 

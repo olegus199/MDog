@@ -6,8 +6,6 @@ import { resizing } from "../state/ResizingSlice";
 import { set_open } from "../state/SidebarOpenSlice";
 
 export default function Sidebar({ pass_zero_width }) {
-  const sidebar_ref = useRef(null);
-  const filemanager_ref = useRef(null);
   const resize_handle_ref = useRef(null);
   const [sidebar_width, set_sidebar_width] = useState(0);
   const [active_pop_up, set_active_pop_up] = useState(null);
@@ -53,7 +51,9 @@ export default function Sidebar({ pass_zero_width }) {
   }, [is_resizing, sidebar_width]);
 
   useEffect(() => {
-    pass_zero_width(sidebar_width);
+    if (sidebar_width === 0) {
+      pass_zero_width(0);
+    }
   }, [sidebar_width]);
 
   useEffect(() => {
@@ -78,7 +78,6 @@ export default function Sidebar({ pass_zero_width }) {
     <div
       className="sidebar"
       style={{ width: sidebar_width }}
-      ref={sidebar_ref}
       onMouseDown={(e) => e.preventDefault()}
       onContextMenu={(e) => e.preventDefault()}
     >
@@ -86,14 +85,13 @@ export default function Sidebar({ pass_zero_width }) {
         className="upper_border"
         data-tauri-drag-region
       ></div>
-      <div
-        className="file_manager"
-        ref={filemanager_ref}
-      >
-        <FileList
-          active_pop_up={active_pop_up}
-          set_active_pop_up={set_active_pop_up}
-        />
+      <div className="file_manager">
+        {sidebar_open && (
+          <FileList
+            active_pop_up={active_pop_up}
+            set_active_pop_up={set_active_pop_up}
+          />
+        )}
       </div>
       <div
         className="resize_handle"
