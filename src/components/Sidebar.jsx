@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
 import "./Sidebar.scss";
 import FileList from "./FileManager/FileList";
+import { useEffect, useRef, useState } from "react";
+import { invoke } from "@tauri-apps/api";
 import { useDispatch, useSelector } from "react-redux";
 import { resizing } from "../state/ResizingSlice";
 import { set_open } from "../state/SidebarOpenSlice";
+import { set_path, set_file_list } from "../state/RootFileListSlice";
 
 export default function Sidebar({ pass_zero_width }) {
   const resize_handle_ref = useRef(null);
@@ -13,6 +15,9 @@ export default function Sidebar({ pass_zero_width }) {
   const dispatch = useDispatch();
   const is_resizing = useSelector((state) => state.resize.is_resizing);
   const sidebar_open = useSelector((state) => state.sidebar_open.is_open);
+  const root_file_list = useSelector(
+    (state) => state.root_file_list.root_file_list
+  );
 
   // Props for toggled sidebar
   useEffect(() => {
@@ -73,6 +78,56 @@ export default function Sidebar({ pass_zero_width }) {
       document.removeEventListener("mouseup", handle_mouse_up);
     };
   }, [is_resizing]);
+
+  // Getting root path and files
+  useEffect(() => {
+    const fetch_data = async () => {
+      const path = await invoke("get_current_path");
+      dispatch(set_path(path));
+    };
+
+    fetch_data();
+  }, []);
+
+  useEffect(() => {
+    const fetch_directory = async () => {
+      const response = await invoke("list_directory", {
+        directory: root_file_list.path,
+      });
+      const filtered_response = filter_response(response);
+      const added_paths = add_paths_for_folders(filtered_response);
+      dispatch(set_file_list(added_paths));
+    };
+
+    if (root_file_list.path !== "") {
+      fetch_directory();
+    }
+  }, [root_file_list.path]);
+
+  const filter_response = (response) => {
+    return response
+      .filter((entry) => {
+        return entry.name[0] !== ".";
+      })
+      .sort((e1, e2) => {
+        return e1.name.toLowerCase() > e2.name.toLowerCase();
+      });
+  };
+
+  const add_paths_for_folders = (file_list) => {
+    for (let item of file_list) {
+      if (item.entry_type === "folder") {
+        item.local_path = root_file_list.path + "/" + item.name;
+        item.local_file_list = [];
+      }
+    }
+
+    return file_list;
+  };
+
+  useEffect(() => {
+    console.log("Reducer's state:", root_file_list);
+  }, [root_file_list]);
 
   return (
     <div

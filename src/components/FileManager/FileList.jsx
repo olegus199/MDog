@@ -1,7 +1,7 @@
+import "./FileList.scss";
 import { useEffect, useState } from "react";
 import FileItem from "./FileItem";
 import { invoke } from "@tauri-apps/api";
-import "./FileList.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { set_content } from "../../state/MDContentSlice";
 import { set_path, set_file_list } from "../../state/RootFileListSlice";
@@ -21,37 +21,35 @@ export default function FileList({
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (new_directory) {
-      set_current_path(new_directory);
-    } else {
-      const fetch_data = async () => {
-        const path = await invoke("get_current_path");
-        set_current_path(path);
-        dispatch(set_path(path));
-      };
+  // useEffect(() => {
+  //   if (new_directory) {
+  //     set_current_path(new_directory);
+  //   } else {
+  //     const fetch_data = async () => {
+  //       const path = await invoke("get_current_path");
+  //       dispatch(set_path(path));
+  //     };
 
-      fetch_data();
-    }
-  }, []);
+  //     fetch_data();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const fetch_directory = async () => {
-      const response = await invoke("list_directory", {
-        directory: current_path,
-      });
-      const filtered_response = filter_response(response);
-      set_current_files(filtered_response);
-      dispatch(set_file_list(filtered_response));
-    };
+  // useEffect(() => {
+  //   const fetch_directory = async () => {
+  //     const response = await invoke("list_directory", {
+  //       directory: root_file_list.path,
+  //     });
+  //     const filtered_response = filter_response(response);
+  //     dispatch(set_file_list(filtered_response));
+  //   };
 
-    if (current_path !== "") {
-      fetch_directory();
-    }
-  }, [current_path]);
+  //   if (root_file_list.path !== "") {
+  //     fetch_directory();
+  //   }
+  // }, [root_file_list.path]);
 
-  console.log("Reducer's state:", root_file_list);
-  console.log(`Component's state: ${current_path}`);
+  // console.log("Reducer's state:", root_file_list);
+  // console.log("Component's state:", current_path, current_files);
 
   const handle_click = (name, type, active) => {
     if (type === "folder") {
@@ -125,7 +123,7 @@ export default function FileList({
       >
         escape
       </div> */}
-      {current_files.map((file, index) => (
+      {root_file_list.file_list.map((file, index) => (
         <div key={index}>
           <FileItem
             name={file.name}
