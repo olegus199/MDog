@@ -117,17 +117,16 @@ export default function Sidebar({ pass_zero_width }) {
   const add_paths_for_folders = (file_list) => {
     for (let item of file_list) {
       if (item.entry_type === "folder") {
-        item.local_path = root_file_list.path + "/" + item.name;
-        item.local_file_list = [];
+        item.path = root_file_list.path + "/" + item.name;
+        item.file_list = [];
       }
     }
-
     return file_list;
   };
 
-  useEffect(() => {
-    console.log("Reducer's state:", root_file_list);
-  }, [root_file_list]);
+  // useEffect(() => {
+  //   console.log(root_file_list);
+  // }, [root_file_list]);
 
   return (
     <div

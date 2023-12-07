@@ -5,81 +5,62 @@ import { invoke } from "@tauri-apps/api";
 import { useDispatch, useSelector } from "react-redux";
 import { set_content } from "../../state/MDContentSlice";
 import { set_path, set_file_list } from "../../state/RootFileListSlice";
+import { add_path, remove_path } from "../../state/OpenedPathsSlice";
 
 export default function FileList({
-  new_directory,
+  selected_list,
   active_pop_up,
   set_active_pop_up,
 }) {
-  const [current_path, set_current_path] = useState("");
-  const [current_files, set_current_files] = useState([]);
-  const [selected_path, set_selected_path] = useState("");
-  const [expanded_paths, set_expanded_paths] = useState([]);
+  // const [current_path, set_current_path] = useState("");
   const root_file_list = useSelector(
     (state) => state.root_file_list.root_file_list
   );
-
+  const opened_paths = useSelector((state) => state.opened_paths.paths);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (new_directory) {
-  //     set_current_path(new_directory);
-  //   } else {
-  //     const fetch_data = async () => {
-  //       const path = await invoke("get_current_path");
-  //       dispatch(set_path(path));
-  //     };
+  const current_list = selected_list
+    ? JSON.parse(JSON.stringify(selected_list))
+    : JSON.parse(JSON.stringify(root_file_list));
 
-  //     fetch_data();
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetch_directory = async () => {
-  //     const response = await invoke("list_directory", {
-  //       directory: root_file_list.path,
-  //     });
-  //     const filtered_response = filter_response(response);
-  //     dispatch(set_file_list(filtered_response));
-  //   };
-
-  //   if (root_file_list.path !== "") {
-  //     fetch_directory();
-  //   }
-  // }, [root_file_list.path]);
-
-  // console.log("Reducer's state:", root_file_list);
-  // console.log("Component's state:", current_path, current_files);
+  // console.log("Opened paths", opened_paths);
 
   const handle_click = (name, type, active) => {
     if (type === "folder") {
-      const new_path = `${current_path}/${name}`;
-      set_selected_path(new_path);
-      if (active) {
-        set_expanded_paths((prev_expanded_items) => [
-          ...prev_expanded_items,
-          new_path,
-        ]);
-      } else {
-        set_expanded_paths(expanded_paths.filter((item) => item !== new_path));
-      }
+      const idx = current_list.file_list.findIndex((obj) => obj.name === name);
+      // console.log("Current list in handle_click:", current_list);
+      const fetch_directory = async () => {
+        const response = await invoke("list_directory", {
+          directory: current_list.file_list[idx].path,
+        });
+        const filtered_response = filter_response(response);
+        console.log("Filtered respnose:", filtered_response);
+        add_paths_for_folders(filtered_response);
+        console.log("Filtered respnose with sosi pisky:", filtered_response);
+        const new_list = JSON.parse(JSON.stringify(current_list));
+
+        if (active) {
+          new_list.file_list[idx].file_list = filtered_response;
+          dispatch(set_file_list(new_list.file_list));
+          dispatch(add_path(new_list.file_list[idx].path));
+        } else {
+          new_list.file_list[idx].file_list = [];
+          dispatch(set_file_list(new_list.file_list));
+          dispatch(remove_path(new_list.file_list[idx].path));
+        }
+
+        // console.log("New list:", new_list);
+      };
+
+      fetch_directory();
     }
   };
+
+  // console.log(opened_paths);
 
   const regex = /^[\w$@#%&*^`~'"|_-]+\.md$/;
 
   const handle_double_click = async (name, type) => {
-    // if (type === "folder") {
-    //   const new_path = `${current_path}/${name}`;
-    //   await invoke("change_directory", {
-    //     to: new_path,
-    //   });
-    //   set_current_path(new_path);
-
-    //   const response = await invoke("list_current_directory");
-    //   const filtered_response = filter_response(response);
-    //   set_current_files(filtered_response);
-    // }
     if (type === "file" && regex.test(name)) {
       const get_md_content = async () => {
         const response = await invoke("get_md_content", {
@@ -91,19 +72,19 @@ export default function FileList({
     }
   };
 
-  const handle_escape = async () => {
-    let new_path = current_path;
-    const last_slash_index = current_path.lastIndexOf("/");
-    if (last_slash_index > 0) {
-      new_path = current_path.substring(0, last_slash_index);
-    }
-    await invoke("change_directory", { to: `${new_path}` });
-    set_current_path(new_path);
+  // const handle_escape = async () => {
+  //   let new_path = current_path;
+  //   const last_slash_index = current_path.lastIndexOf("/");
+  //   if (last_slash_index > 0) {
+  //     new_path = current_path.substring(0, last_slash_index);
+  //   }
+  //   await invoke("change_directory", { to: `${new_path}` });
+  //   set_current_path(new_path);
 
-    const response = await invoke("list_current_directory");
-    const filtered_response = filter_response(response);
-    set_current_files(filtered_response);
-  };
+  //   const response = await invoke("list_current_directory");
+  //   const filtered_response = filter_response(response);
+  //   set_current_files(filtered_response);
+  // };
 
   const filter_response = (response) => {
     return response
@@ -115,6 +96,20 @@ export default function FileList({
       });
   };
 
+  const add_paths_for_folders = (file_list) => {
+    file_list = "sosi pisky";
+    return;
+    for (let item of file_list) {
+      if (item.entry_type === "folder") {
+        // console.log("Current list:", current_list);
+        item.path = current_list.path + "/" + item.name;
+        item.file_list = [];
+      }
+    }
+  };
+
+  console.log("Current list:", current_list);
+
   return (
     <>
       {/* <div
@@ -123,7 +118,7 @@ export default function FileList({
       >
         escape
       </div> */}
-      {root_file_list.file_list.map((file, index) => (
+      {current_list.file_list.map((file, index) => (
         <div key={index}>
           <FileItem
             name={file.name}
@@ -135,9 +130,9 @@ export default function FileList({
             set_active_pop_up={set_active_pop_up}
           />
           <div className="nested_file_list">
-            {expanded_paths.includes(`${current_path}/${file.name}`) && (
+            {opened_paths.includes(current_list.file_list[index].path) && (
               <FileList
-                new_directory={selected_path}
+                selected_list={current_list.file_list[index]}
                 active_pop_up={active_pop_up}
                 set_active_pop_up={set_active_pop_up}
               />
