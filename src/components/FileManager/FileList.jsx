@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import FileItem from "./FileItem";
 import { invoke } from "@tauri-apps/api";
 import "./FileList.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { set_content } from "../../state/MDContentSlice";
+import { set_path, set_file_list } from "../../state/RootFileListSlice";
 
 export default function FileList({
   new_directory,
@@ -14,10 +15,9 @@ export default function FileList({
   const [current_files, set_current_files] = useState([]);
   const [selected_path, set_selected_path] = useState("");
   const [expanded_paths, set_expanded_paths] = useState([]);
-  // console.log(current_path);
-  // console.log(current_files);
-  // console.log(selected_path);
-  console.log(expanded_paths);
+  const root_file_list = useSelector(
+    (state) => state.root_file_list.root_file_list
+  );
 
   const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ export default function FileList({
       const fetch_data = async () => {
         const path = await invoke("get_current_path");
         set_current_path(path);
+        dispatch(set_path(path));
       };
 
       fetch_data();
@@ -41,12 +42,16 @@ export default function FileList({
       });
       const filtered_response = filter_response(response);
       set_current_files(filtered_response);
+      dispatch(set_file_list(filtered_response));
     };
 
     if (current_path !== "") {
       fetch_directory();
     }
   }, [current_path]);
+
+  console.log("Reducer's state:", root_file_list);
+  console.log(`Component's state: ${current_path}`);
 
   const handle_click = (name, type, active) => {
     if (type === "folder") {
